@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import { Menu, Button, Icon, Container } from 'semantic-ui-react'
+import { Header, Menu, Button, Icon, Container } from 'semantic-ui-react'
 
 class TopNav extends Component {
   render() {
@@ -8,19 +8,24 @@ class TopNav extends Component {
       <Menu
         size="tiny"
         fixed="top"
+        color="blue"
+        inverted
       >
         <Container>
           <Menu.Item>
-            <Link to="/archive">
-              Archive
-            </Link>
+            <Header style={{ color: 'white' }}>
+              Simple Blog
+            </Header>
+          </Menu.Item>
+          <Menu.Item as={Link} to="/">
+            Archive
           </Menu.Item>
           <Menu.Item position="right">
             <Button
-              primary
               size="tiny"
               as={Link}
               to="/new"
+              style={{ color: '#2185d0', background: '#fff' }}
             >
               <Icon name="plus" />
               New Article

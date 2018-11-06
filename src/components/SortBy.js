@@ -17,8 +17,8 @@ const DEFINITION = [
     isDivider: true
   },
   {
-    name: 'Post Date',
-    value: 'date'
+    name: 'Publish Date',
+    value: 'created'
   }
 ]
 
@@ -34,7 +34,7 @@ class SortBy extends Component {
       sortBy
     } = this.props
 
-    if(sortBy == node.value) {
+    if(sortBy === node.value) {
       this.props.onChange({ 
         order: order === 'desc' ? 'asc' : 'desc',
         sortBy
@@ -60,19 +60,20 @@ class SortBy extends Component {
         <b className="m-r-10">Sort By</b>
         <Breadcrumb>
           {
-            DEFINITION.map(opt => {
+            DEFINITION.map((opt, index) => {
               if(opt.isDivider) {
-                return <Breadcrumb.Divider content=" | " />
+                return <Breadcrumb.Divider key={index} content=" | " />
               }
 
               return (
                 <Breadcrumb.Section 
+                  key={index} 
                   link
                   onClick={this.handleClick}
-                  active={sortBy == opt.value}
+                  active={sortBy === opt.value}
                   value={opt.value}
                 >
-                  { sortBy == opt.value && OrderComponent }
+                  { sortBy === opt.value && OrderComponent }
                   { opt.name }
                 </Breadcrumb.Section>
               )

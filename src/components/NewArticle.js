@@ -1,11 +1,30 @@
+import { get } from 'lodash'
 import React, { Component } from 'react';
-import { Icon, Header, Divider, Input, Button, Form, TextArea } from 'semantic-ui-react'
+import { Icon, Header, Divider, Button, Form } from 'semantic-ui-react'
 
 class NewArticle extends Component {
   state = {
+    id: '',
+    type: 'New',
     title: '',
     author: '',
     content: ''
+  }
+
+  componentDidMount = async () => {
+    const id = get(this.props, 'match.params.id')
+
+    if(id) {
+      const data = await this.props.getArticleById(id)
+
+      this.setState({
+        id: data._id,
+        type: 'Edit',
+        title: data.title,
+        author: data.author,
+        content: data.content,
+      })
+    }
   }
 
   handleTitleChange = e => this.setState({ title: e.target.value })
@@ -14,8 +33,38 @@ class NewArticle extends Component {
 
   handleContentChange = e => this.setState({ content: e.target.value })
 
+  handleSubmit = async () => {
+    const {
+      title,
+      author,
+      content
+    } = this.state
+
+    let id
+
+    if(this.state.id) {
+      id = this.state.id
+
+      await this.props.editArticle({
+        id,
+        title,
+        author,
+        content
+      })
+    } else {
+      id = await this.props.createArticle({
+        title,
+        author,
+        content
+      })
+    }
+
+    this.props.history.push(`/article/${id}`)
+  }
+
   render() {
     const {
+      type,
       title,
       author,
       content
@@ -23,12 +72,12 @@ class NewArticle extends Component {
 
     return (
       <div>
-        <Header>
+        <Header color="grey">
           <Icon.Group className="m-r-10" size="large">
             <Icon name="file" />
             <Icon corner name="plus" />
           </Icon.Group>
-          New Article
+          { type } Article
         </Header>
         <Divider />
         <Form>
@@ -43,6 +92,7 @@ class NewArticle extends Component {
             />
             <Form.Input 
               fluid 
+              error={!author}
               label="Author"
               value={author}
               placeholder="Who are you?" 
@@ -61,7 +111,8 @@ class NewArticle extends Component {
           <Button 
             size="tiny" 
             floated="right"
-            disabled={!title}
+            disabled={!title || !author}
+            onClick={this.handleSubmit}
           >
             Submit
           </Button>

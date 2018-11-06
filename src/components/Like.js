@@ -1,16 +1,11 @@
 import React from 'react';
 import { Icon } from 'semantic-ui-react'
-import styled from 'styled-components'
-
-const InlineDiv = styled.div`
-  display: inline-block;
-`
 
 const Like = props => {
   return (
-    <div className="color-like inline">
+    <div className="like-count inline">
       <span className="m-r-5">
-        <Icon name="like" onClick={props.onLike} />
+        <Icon name="like" />
       </span>
       <span>
         { props.count }

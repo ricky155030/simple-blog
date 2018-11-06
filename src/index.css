@@ -20,7 +20,8 @@ code {
   margin-right: 10px;
 }
 
-.color-like {
+.like-count {
+  line-height: 30px;
   color: #db4437;
 }
 

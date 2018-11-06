@@ -1,30 +1,33 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import { Item, Icon } from 'semantic-ui-react'
+import { Item, Icon, Button } from 'semantic-ui-react'
 import Like from './Like'
+import { formatDate } from '../utils'
 
 const ArticleListItem = props => {
   const {
-    id,
+    _id,
     like,
-    date,
+    created,
     title,
     author,
     preview
   } = props.article
 
   return (
-    <Item size="tiny">
+    <Item>
       <Item.Content>
-        <Item.Header as='a'>
-          { title }
+        <Item.Header>
+          <Link to={`/article/${_id}`}>
+            { title }
+          </Link>
         </Item.Header>
         <Item.Meta>
-          <span className="m-r-10">
-            { date }
+          <span>
+            <Icon name="time" />
+            { formatDate(created) }
           </span>
-          <Like count={like} onLike={() => props.likeArticle(id)}/>
-          <span className="m-r-10">
+          <span>
             <Icon name="user" />
             { author }
           </span>
@@ -34,9 +37,24 @@ const ArticleListItem = props => {
           { preview }
         </Item.Description>
         <Item.Extra>
-          <Link to={`/article/${id}`}>
+          <Link to={`/article/${_id}`}>
             Read more
           </Link>
+        </Item.Extra>
+        <Item.Extra>
+          <Like count={like} />
+          <Button size="tiny" negative floated="right" onClick={() => props.deleteArticle(_id)}>
+            <Icon name="remove" />
+            Delete
+          </Button>
+          <Button size="tiny" floated="right" onClick={() => props.editArticle(_id)}>
+            <Icon name="edit" />
+            Edit
+          </Button>
+          <Button size="tiny" floated="right" onClick={() => props.likeArticle(_id)}>
+            <Icon name="like" />
+            Like this post
+          </Button>
         </Item.Extra>
       </Item.Content>
     </Item>
