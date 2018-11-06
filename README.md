@@ -17,7 +17,7 @@ yarn run server
 * semantic-ui-react
 
 ### Backend
-* Nodejs
+* Nodejs v8.12.0
 * Express
 * [warehouse](https://github.com/hexojs/warehouse)
 
