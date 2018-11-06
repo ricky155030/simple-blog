@@ -1,5 +1,5 @@
+const { truncate } = require('lodash')
 const { Schema } = require('warehouse');
-const { getTime } = require('date-fns/get_time')
 
 const Article = new Schema();
 
@@ -14,6 +14,7 @@ Article.add({
   },
   author: {
     type: String,
+    required: true,
     default: 'Unknown'
   },
   content: {
@@ -29,5 +30,11 @@ Article.add({
     default: Date.now()
   }
 });
+
+Article.virtual('preview').get(function() {
+  return truncate(this.content, {
+    length: 100
+  })
+})
 
 module.exports = Article

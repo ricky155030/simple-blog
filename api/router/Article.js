@@ -1,3 +1,4 @@
+const { omit, chain } = require('lodash')
 const express = require('express')
 const router = express.Router()
 
@@ -7,7 +8,10 @@ router.get('/', (req, res, next) => {
   } = req.models
 
   try {
-    const data = Article.toArray()
+    const data = chain(Article.toArray())
+      .map(d => omit(d.toObject(), 'content'))
+      .value()
+
     res.json(data)
   } catch(e) {
     next(e)
@@ -78,6 +82,23 @@ router.get('/:id', async (req, res, next) => {
   try {
     data = Article.findById(id)
     res.json(data.toObject())
+  } catch(e) {
+    next(e)
+  }
+})
+
+router.delete('/:id', async (req, res, next) => {
+  const {
+    Article
+  } = req.models
+
+  const {
+    id
+  } = req.params
+
+  try {
+    await Article.removeById(id)
+    res.json({ status: 'success' })
   } catch(e) {
     next(e)
   }
