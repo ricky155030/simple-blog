@@ -23,6 +23,8 @@ app.use(bodyParser.json());
   app.use((req, res, next) => {
     req.db = db
     req.models = models
+
+    console.log(`${new Date()} ${req.ip} ${req.path} ${req.method}`)
     next()
   })
 
