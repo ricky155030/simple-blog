@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 
   app.use('/api/article', Article)
   app.use('/static', express.static(path.join(__dirname + '/build/static')))
-  app.use('/', (req, res) => res.sendFile(path.join(__dirname + '/build/index.html')))
+  app.use('*', (req, res) => res.sendFile(path.join(__dirname + '/build/index.html')))
 
   app.use(errorHandler)
 })()
