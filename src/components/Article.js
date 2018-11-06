@@ -7,7 +7,7 @@ import { formatDate } from '../utils'
 
 const PaddedSegment = styled(Segment)`
   padding: 30px !important;
-  white-space: pre;
+  white-space: pre-wrap;
 `
 
 class Article extends Component {
